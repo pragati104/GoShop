@@ -16,7 +16,7 @@ import {
 import React, { useState } from "react";
 import { href, Link, Outlet } from "react-router-dom";
 import { useAuth } from "../../zustand/useAuth";
-import ChatBot from "./chatBot";
+import ChatBot from "./ChatBot";
 
 const UserLayout = () => {
   const [space, setSpace] = useState(270);
