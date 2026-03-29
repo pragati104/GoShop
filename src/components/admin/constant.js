@@ -1,0 +1,15 @@
+export const Categories = [
+  "Fashion & Apparel",
+  "Electronics",
+  "Home & Living",
+  "Beauty & Personal Care",
+  "Groceries",
+  "Sports & Fitness",
+  "Toys & Baby",
+  "Books & Media",
+  "Automotive",
+  "Pets",
+  "Office & Stationery",
+  "Health & Medical",
+  "Gifts & Specialty",
+];
