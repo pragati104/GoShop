@@ -6,10 +6,15 @@ import { toast } from "react-toastify";
 
 axios.defaults.baseURL = env.VITE_API_URL;
 
-axios.interceptors.request.use((config) => {
-  const auth = JSON.parse(localStorage.getItem("auth"));
+export const httpRequest = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+});
 
+httpRequest.interceptors.request.use((config) => {
+  const auth = JSON.parse(localStorage.getItem("auth"));
   const token = auth?.state?.token;
+
+  console.log("TOKEN:", token); // debug
 
   if (token) {
     config.headers = config.headers || {};
