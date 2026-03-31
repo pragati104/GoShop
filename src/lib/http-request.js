@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuth } from "../zustand/useAuth";
 
 export const httpRequest = axios.create({
-  baseURL: import.meta.env.VITE_SERVER_URL,
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 httpRequest.interceptors.request.use((config) => {

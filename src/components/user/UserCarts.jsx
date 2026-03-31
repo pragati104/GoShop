@@ -56,6 +56,7 @@ const UserCarts = () => {
       const payload = { products };
       const res = await httpRequest.post("/checkout", payload);
       window.location.href = res.data.paymentLink;
+      console.log(res.data.paymentLink);
     } catch (err) {
       setLoading(false);
       toast.error(err.response.data.message);
