@@ -21,9 +21,9 @@ const menus = [
     icon: <Home className="w-5 h-5" />,
   },
   {
-    label: "Checkout",
-    link: "/user/checkout",
-    icon: <BadgeIndianRupee className="w-5 h-5" />,
+    label: "Orders",
+    link: "/user/orders",
+    icon: <ShoppingBag className="w-5 h-5" />,
   },
 ];
 

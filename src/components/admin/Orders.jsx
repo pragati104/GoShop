@@ -1,5 +1,5 @@
 import React from "react";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { fetcher } from "../../lib/fetcher";
 import Loader from "../shared/Loader";
 import Error from "../shared/Error";
@@ -19,7 +19,10 @@ const Orders = () => {
   const updateOrder = async (value, id) => {
     try {
       await httpRequest.put(`/orders/${id}`, { status: value });
+
       toast.success(`Order status updated to ${value}`);
+
+      mutate("/orders"); // ✅ REFRESH DATA
     } catch (err) {
       toast.error(err?.response?.data?.message);
     }
@@ -55,12 +58,16 @@ const Orders = () => {
       key: "address",
       title: "Address",
       responsive: ["lg"],
-      render: (item) => (
-        <div className="min-w-55 text-sm">
-          {item.user.address},{item.user.city},{item.user.state},
-          {item.user.country},{item.user.pincode}
-        </div>
-      ),
+      render: (item) => {
+        const address = item.shippingAddress || item.user; // fallback
+
+        return (
+          <div className="min-w-55 text-sm">
+            {address?.address}, {address?.city}, {address?.state},{" "}
+            {address?.country}, {address?.pincode}
+          </div>
+        );
+      },
     },
     {
       key: "date",
@@ -74,7 +81,7 @@ const Orders = () => {
       render: (item) => (
         <Select
           className="w-full min-w-35"
-          defaultValue={item.status}
+          value={item.status}
           onChange={(value) => updateOrder(value, item._id)}
         >
           <Select.Option value="pending">Pending</Select.Option>
@@ -94,7 +101,7 @@ const Orders = () => {
             className="flex flex-col sm:flex-row gap-4 border-b border-gray-100 pb-4"
           >
             <img
-              src={item.image || "/images/product-placeholder.png"}
+              src={itemData.id.image || "/images/product-placeholder.png"}
               className="w-full sm:w-28 h-28 object-cover rounded-lg"
             />
             <div className="flex-1">

@@ -2,7 +2,7 @@ import { Button, Card, Form, Input, InputNumber } from "antd";
 import { Edit, Save } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { fetcher } from "../../lib/fetcher";
 import { useForm } from "antd/es/form/Form";
 import Loader from "../shared/Loader";
@@ -23,6 +23,9 @@ const UserSettings = () => {
     try {
       const { data } = await httpRequest.put("/auth/update", values);
       toast.success(data.message, { position: "top-center" });
+      mutate("/auth/session");
+
+      setEditable(false);
     } catch (err) {
       toast.error(err.response.data.message);
     }
