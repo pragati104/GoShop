@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { httpRequest } from "../../lib/http-request";
 import { priceCalculator } from "../../lib/priceCalculator";
 import { Categories } from "./constant";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
   const [open, setOpen] = useState(false);
@@ -23,6 +24,7 @@ const Products = () => {
   const [updateCount, setUpdateCount] = useState(0);
   const [editId, setEditId] = useState(null);
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   const handleClose = () => {
     setEditId(null);
@@ -113,6 +115,7 @@ const Products = () => {
             <Card
               key={item._id}
               hoverable
+              onClick={() => navigate(`/products/${item.slug}`)}
               className="h-full flex flex-col justify-between"
               cover={
                 <img
@@ -145,14 +148,20 @@ const Products = () => {
                     icon={<Edit2 className="w-4 h-4" />}
                     type="primary"
                     className="bg-indigo-500"
-                    onClick={() => editProduct(item)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      editProduct(item);
+                    }}
                   />
                 </Tooltip>
 
                 <Tooltip title="Delete product">
                   <Popconfirm
                     title="Are you sure you want to delete this product!"
-                    onConfirm={() => deleteProduct(item._id)}
+                    onConfirm={(e) => {
+                      e?.stopPropagation();
+                      deleteProduct(item._id);
+                    }}
                   >
                     <Button
                       icon={<Trash2 className="w-4 h-4" />}

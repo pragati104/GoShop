@@ -27,13 +27,24 @@ const UserCarts = () => {
   const { data, error, isLoading } = useSWR("/cart", fetcher);
   const [loading, setLoading] = useState(false);
 
-  const increaseDecreaseCart = async (id, qnt) => {
-    try {
-      await httpRequest.put(`/cart/${id}`, { qnt: qnt });
-      mutate("/cart");
-    } catch (err) {
-      toast.error(err.response.data.message);
-    }
+  let timer;
+  const increaseDecreaseCart = (id, qnt) => {
+    clearTimeout(timer);
+
+    mutate(
+      "/cart",
+      (data) => data.map((item) => (item._id === id ? { ...item, qnt } : item)),
+      false,
+    );
+
+    timer = setTimeout(async () => {
+      try {
+        await httpRequest.put(`/cart/${id}`, { qnt });
+        mutate("/cart");
+      } catch (err) {
+        mutate("/cart");
+      }
+    }, 300);
   };
 
   const deletCart = async (id) => {

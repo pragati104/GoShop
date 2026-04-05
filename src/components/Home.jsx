@@ -58,10 +58,12 @@ const Home = () => {
               .toLowerCase()
               .includes(search.toLowerCase()),
           )
-          .map((item) => (
+          .map((item) => {
+            console.log(item);
             <Card
               key={item._id}
               hoverable
+              onClick={() => navigate(`/products/${item.slug || item._id}`)}
               className="w-full"
               cover={
                 <img
@@ -92,7 +94,10 @@ const Home = () => {
 
               <div className="mt-4">
                 <Button
-                  onClick={() => addToCart(item._id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addToCart(item._id);
+                  }}
                   size="large"
                   type="primary"
                   block
@@ -101,8 +106,8 @@ const Home = () => {
                   Add to cart
                 </Button>
               </div>
-            </Card>
-          ))}
+            </Card>;
+          })}
       </div>
     </div>
   );

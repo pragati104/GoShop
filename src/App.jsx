@@ -19,6 +19,7 @@ import UserCarts from "./components/user/UserCarts";
 import UserOrders from "./components/user/UserOrders";
 import UserSettings from "./components/user/UserSettings";
 import MainLayout from "./components/MainLayout";
+import ProductDetails from "./lib/ProductDetails";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/products/:slug" element={<ProductDetails />} />
         </Route>
 
         <Route element={<AuthGuard />}>
