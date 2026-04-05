@@ -20,6 +20,8 @@ const Home = () => {
   if (isLoading) return <Loader />;
   if (error) return <Error message={error.message} />;
 
+  console.log(data);
+
   const addToCart = async (id) => {
     try {
       if (!user || user.role !== "user") {
@@ -59,54 +61,59 @@ const Home = () => {
               .includes(search.toLowerCase()),
           )
           .map((item) => {
-            console.log(item);
-            <Card
-              key={item._id}
-              hoverable
-              onClick={() => navigate(`/products/${item.slug || item._id}`)}
-              className="w-full"
-              cover={
-                <img
-                  src="/images/product-placeholder.png"
-                  alt="product-image"
-                  className="h-48 md:h-52 object-cover"
-                />
-              }
-            >
-              <Card.Meta
-                title={item.title}
-                description={
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <label className="font-medium text-gray-600">
-                      ₹ {priceCalculator(item.price, item.discount)}
-                    </label>
+            console.log(item, "bkjgvnhjg");
 
-                    <del className="text-rose-500">
-                      ₹ {item.price.toLocaleString()}
-                    </del>
-
-                    <label className="text-black">({item.discount}% off)</label>
-                  </div>
+            return (
+              <Card
+                key={item._id}
+                hoverable
+                onClick={() => navigate(`/products/${item.slug || item._id}`)}
+                className="w-full"
+                cover={
+                  <img
+                    src="/images/product-placeholder.png"
+                    alt="product-image"
+                    className="h-48 md:h-52 object-cover"
+                  />
                 }
-              />
+              >
+                <Card.Meta
+                  title={item.title}
+                  description={
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <label className="font-medium text-gray-600">
+                        ₹ {priceCalculator(item.price, item.discount)}
+                      </label>
 
-              <Tag className="mt-3">Men's clothing</Tag>
+                      <del className="text-rose-500">
+                        ₹ {item.price.toLocaleString()}
+                      </del>
 
-              <div className="mt-4">
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    addToCart(item._id);
-                  }}
-                  size="large"
-                  type="primary"
-                  block
-                  icon={<ShoppingCart className="w-4 h-4" />}
-                >
-                  Add to cart
-                </Button>
-              </div>
-            </Card>;
+                      <label className="text-black">
+                        ({item.discount}% off)
+                      </label>
+                    </div>
+                  }
+                />
+
+                <Tag className="mt-3">Men's clothing</Tag>
+
+                <div className="mt-4">
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addToCart(item._id);
+                    }}
+                    size="large"
+                    type="primary"
+                    block
+                    icon={<ShoppingCart className="w-4 h-4" />}
+                  >
+                    Add to cart
+                  </Button>
+                </div>
+              </Card>
+            );
           })}
       </div>
     </div>
